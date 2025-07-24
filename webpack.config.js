@@ -4,11 +4,13 @@ const path = require('path');
 
 module.exports = {
   entry: ["./src/widget.js"],
+  experiments: {
+    outputModule: true,
+  },
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'widget.js',
-    library: 'Widget',
-    libraryTarget: 'umd',
+    libraryTarget: 'module',
     libraryExport: 'default'
   },
   mode: isProd ? 'production' : 'development',
