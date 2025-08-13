@@ -195,6 +195,7 @@ class Widget {
   /**
    * Save all interactive DOM elements as variables for later access.
    *
+   * @throws {Error} If parent container element not found
    * @private
    */
   setupElements () {
@@ -263,6 +264,7 @@ class Widget {
    * otherwise it will be appended to the document's body.
    *
    * @param  {String,HTMLElement} [element] - Widget's parent
+   * @throws {Error} If the element is not found or is of an unknown type.
    */
   attach (element) {
     const domElement = this.createHtmlTemplate(element);
@@ -274,10 +276,10 @@ class Widget {
     } else if (typeof element === "string") {
       this.parentContainerEl = document.getElementById(element);
       if (!parent) {
-        throw Error("Failed to find target DOM element with id=\"" + element + "\"");
+        throw new Error("Failed to find target DOM element with id=\"" + element + "\"");
       }
     } else if (element) {
-      throw Error("Unknown element type. Expected instance of HTMLElement or type of string.");
+      throw new Error("Unknown element type. Expected instance of HTMLElement or type of string.");
     } else {
       this.parentContainerEl = document.body;
     }
