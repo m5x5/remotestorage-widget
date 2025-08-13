@@ -199,7 +199,7 @@ class Widget {
    */
   setupElements () {
     if (!this.parentContainerEl) {
-      throw new Error("No element ");
+      throw new Error("Parent container element not found");
     }
     
     this.rsWidget = this.parentContainerEl.querySelector('.rs-widget');
@@ -270,10 +270,8 @@ class Widget {
     this.parentContainerEl;
 
     if (element instanceof HTMLElement) {
-      console.log('instanceof HTMLElement');
       this.parentContainerEl = element;
     } else if (typeof element === "string") {
-      console.log('typeof string');
       this.parentContainerEl = document.getElementById(element);
       if (!parent) {
         throw Error("Failed to find target DOM element with id=\"" + element + "\"");
