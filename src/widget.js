@@ -1,6 +1,6 @@
-import widgetHtml from './assets/widget.html?raw';
-import widgetCss from './assets/styles.css?raw';
-import circleOpenSvg from './assets/circle-open.svg?raw';
+import widgetHtml from './assets/widget.html';
+import widgetCss from './assets/styles.css';
+import circleOpenSvg from './assets/circle-open.svg';
 
 /**
  * RemoteStorage connect widget
