@@ -1,7 +1,4 @@
-import "./widget-component";
-import type { RemoteStorageWidget } from "./widget-component";
-
-interface WidgetOptions {
+export interface WidgetOptions {
   /** Keep the widget open when user clicks outside of it */
   leaveOpen?: boolean;
   /** Timeout after which the widget closes automatically (in milliseconds). The widget only closes when a storage is connected. */
@@ -14,7 +11,7 @@ interface WidgetOptions {
   modalBackdrop?: boolean | "onlySmallScreens";
 }
 
-interface RemoteStorage {
+export interface RemoteStorage {
   apiKeys: Record<string, unknown>;
   backend: string;
   remote: {
@@ -35,24 +32,19 @@ interface RemoteStorage {
   };
 }
 
+export class RemoteStorageWidget extends HTMLElement {
+  setRemoteStorage(rs: RemoteStorage): void;
+  setOptions(options: WidgetOptions): void;
+  toggle(): void;
+  open(): void;
+  close(): void;
+}
+
 /**
  * RemoteStorage connect widget
- * @constructor
  */
-class Widget {
-  private component: RemoteStorageWidget;
-  private parentContainerEl: HTMLElement | null;
-
-  constructor(remoteStorage: RemoteStorage, options: WidgetOptions = {}) {
-    this.parentContainerEl = null;
-
-    // Create and configure the vanilla web component
-    this.component = document.createElement(
-      "remotestorage-widget",
-    ) as RemoteStorageWidget;
-    this.component.setRemoteStorage(remoteStorage);
-    this.component.setOptions(options);
-  }
+export default class Widget {
+  constructor(remoteStorage: RemoteStorage, options?: WidgetOptions);
 
   /**
    * Append widget to the DOM.
@@ -64,26 +56,7 @@ class Widget {
    *
    * @throws {Error} If the element is not found or is of an unknown type.
    */
-  attach(element?: string | HTMLElement): void {
-    if (element instanceof HTMLElement) {
-      this.parentContainerEl = element;
-    } else if (typeof element === "string") {
-      this.parentContainerEl = document.getElementById(element);
-      if (!this.parentContainerEl) {
-        throw new Error(
-          `Failed to find target DOM element with id="${element}"`,
-        );
-      }
-    } else if (element) {
-      throw new Error(
-        "Unknown element type. Expected instance of HTMLElement or type of string.",
-      );
-    } else {
-      this.parentContainerEl = document.body;
-    }
-
-    this.parentContainerEl.appendChild(this.component);
-  }
+  attach(element?: string | HTMLElement): void;
 
   /**
    * Toggle between the widget's open/close state.
@@ -91,16 +64,12 @@ class Widget {
    * When then widget is open and in initial state, it will show the backend
    * chooser screen.
    */
-  toggle(): void {
-    this.component.toggle();
-  }
+  toggle(): void;
 
   /**
    * Open the widget.
    */
-  open(): void {
-    this.component.open();
-  }
+  open(): void;
 
   /**
    * Close the widget to only show the icon.
@@ -108,9 +77,5 @@ class Widget {
    * If the ``leaveOpen`` config is true or there is no storage connected,
    * the widget will not close.
    */
-  close(): void {
-    this.component.close();
-  }
+  close(): void;
 }
-
-export default Widget;
